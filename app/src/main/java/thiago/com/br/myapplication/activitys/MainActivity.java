@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
                 String usuarioInformado = email.getText().toString();
                 String SenhaInformada = senha.getText().toString();
 
-                if ("leitor".equals(usuarioInformado) && "123".equals(SenhaInformada)){
+                if ("thiagomorais92@live.com".equals(usuarioInformado) && "12345".equals(SenhaInformada)){
                     Log.i("if","dentro da condição");
                     Intent ir = new Intent(MainActivity.this,DashBoardActivity.class);
                     startActivity(ir);
