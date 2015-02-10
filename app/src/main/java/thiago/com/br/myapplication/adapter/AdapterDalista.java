@@ -1,20 +1,17 @@
 package thiago.com.br.myapplication.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 import thiago.com.br.myapplication.R;
-import thiago.com.br.myapplication.model.OpccaoDashBoard;
+import thiago.com.br.myapplication.model.OpcaoDashBoard;
 
 /**
  * Created by Samsung on 09/02/2015.
@@ -22,10 +19,10 @@ import thiago.com.br.myapplication.model.OpccaoDashBoard;
 public class AdapterDalista extends BaseAdapter {
 
     private final Activity context;
-    private List<OpccaoDashBoard> opc;
+    private List<OpcaoDashBoard> opc;
 
 
-    public AdapterDalista(Activity context,List<OpccaoDashBoard> opc) {
+    public AdapterDalista(Activity context,List<OpcaoDashBoard> opc) {
         this.context = context;
         this.opc = opc;
     }
@@ -47,7 +44,7 @@ public class AdapterDalista extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        OpccaoDashBoard linha = opc.get(position);
+        OpcaoDashBoard linha = opc.get(position);
 
         LayoutInflater inflater = context.getLayoutInflater();
         View view =  inflater.inflate(R.layout.layout_linha,null);

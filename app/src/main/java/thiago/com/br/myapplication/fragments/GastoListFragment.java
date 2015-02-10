@@ -1,7 +1,8 @@
-package thiago.com.br.myapplication.activitys;
+package thiago.com.br.myapplication.fragments;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,9 +16,13 @@ import java.util.List;
 /**
  * Created by Samsung on 28/01/2015.
  */
-public class GastoListActivity extends ListActivity implements AdapterView.OnItemClickListener {
-
+public class GastoListFragment extends Fragment implements AdapterView.OnItemClickListener {
     @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    /*@Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setListAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,listarGastos()));
@@ -37,5 +42,5 @@ public class GastoListActivity extends ListActivity implements AdapterView.OnIte
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         TextView tv = (TextView) view;
         Toast.makeText(this,"Gasto selecionado foi:"+tv.getText(),Toast.LENGTH_SHORT).show();
-    }
+    }*/
 }

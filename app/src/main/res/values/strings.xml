@@ -26,6 +26,8 @@
     <string name="local">Local:</string>
     <string name="gastei">Gastei</string>
     <string name="categoria">Categoria:</string>
+    <string name="open_drawer">abrir navegação</string>
+    <string name="close_drawer">fechar navegação</string>
     <string-array name="opcoes_categoria">
         <item>Alimentação</item>
         <item>Entretenimento</item>

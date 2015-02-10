@@ -10,17 +10,19 @@
         <activity
             android:name=".activitys.MainActivity"
             android:label="@string/app_name" >
+
+        </activity>
+        <activity android:name=".activitys.DashBoardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activitys.DashBoardActivity"/>
-        <activity android:name=".activitys.ViagemActivity"/>
-        <activity android:name=".activitys.GastoActivity"/>
-        <activity android:name=".activitys.ViagemListActivity"/>
-        <activity android:name=".activitys.GastoListActivity"/>
+        <activity android:name=".fragments.ViagemFragment"/>
+        <activity android:name=".fragments.GastoActivity"/>
+        <activity android:name=".fragments.ViagemListFragment"/>
+        <activity android:name=".fragments.GastoListFragment"/>
     </application>
 
 </manifest>

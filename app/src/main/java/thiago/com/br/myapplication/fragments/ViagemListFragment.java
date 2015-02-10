@@ -1,8 +1,8 @@
-package thiago.com.br.myapplication.activitys;
+package thiago.com.br.myapplication.fragments;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.*;
 import thiago.com.br.myapplication.R;
@@ -12,9 +12,13 @@ import java.util.*;
 /**
  * Created by Samsung on 28/01/2015.
  */
-public class ViagemListActivity extends ListActivity implements AdapterView.OnItemClickListener{
+public class ViagemListFragment extends Fragment implements AdapterView.OnItemClickListener{
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-    private List<Map<String, Object>> viagens;
+    }
+
+/*    private List<Map<String, Object>> viagens;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,7 @@ public class ViagemListActivity extends ListActivity implements AdapterView.OnIt
         Map<String,Object> map = viagens.get(position);
         String destino = (String) map.get("destino");
 
-        Toast.makeText(ViagemListActivity.this,"Viagem Selecionada: "+destino,Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(ViagemListActivity.this, GastoListActivity.class));
-    }
+        Toast.makeText(ViagemListFragment.this,"Viagem Selecionada: "+destino,Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(ViagemListFragment.this, GastoListFragment.class));
+    }*/
 }
