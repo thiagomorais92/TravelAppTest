@@ -34,4 +34,17 @@
         <item>Outro</item>
     </string-array>
 
+    <string-array name="opcoes_dashboard">
+        <item>Novo gasto</item>
+        <item>Nova viagem</item>
+        <item>Minhas viagens</item>
+        <item>Configurações</item>
+    </string-array>
+
+    <string-array name="imagens_dashboard">
+        <item>R.drawable.img_novogasto</item>
+        <item>R.drawable.img_novaviagem</item>
+        <item>R.drawable.img_minhasviagens</item>
+        <item>R.drawable.img_configuracoes</item>
+    </string-array>
 </resources>
