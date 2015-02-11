@@ -1,28 +1,26 @@
 package thiago.com.br.myapplication.activitys;
 
-import android.app.AlertDialog;
-import android.app.FragmentTransaction;
+
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
 import thiago.com.br.myapplication.R;
 import thiago.com.br.myapplication.adapter.AdapterDalista;
 import thiago.com.br.myapplication.fragments.GastoFragment;
+import thiago.com.br.myapplication.fragments.ViagemFragment;
+import thiago.com.br.myapplication.fragments.ViagemListFragment;
 import thiago.com.br.myapplication.model.OpcaoDashBoard;
 
 /**
@@ -36,6 +34,10 @@ public class DashBoardActivity extends ActionBarActivity implements ListView.OnI
     private ActionBar mActionBar;
     private List<OpcaoDashBoard> opcoesDashBoard;
     private ActionBarDrawerToggle mActBarDrawerToggle;
+    private android.support.v4.app.FragmentTransaction ft;
+    private OpcaoDashBoard opcaoDashBoard;
+    //usado apenas para fechar o drawer e DEPOIS carregar os grafmentus
+    private int posicao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +50,40 @@ public class DashBoardActivity extends ActionBarActivity implements ListView.OnI
         mListView.setAdapter(new AdapterDalista(this,opcoesDashBoard));
         mListView.setOnItemClickListener(this);
         mDrawerLayout.setDrawerListener(mActBarDrawerToggle);
+
     }
 
     private void implementaDrawerToggle() {
         mActBarDrawerToggle = new ActionBarDrawerToggle(this,mDrawerLayout,R.string.open_drawer,R.string.close_drawer){
             @Override
             public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                Toast.makeText(DashBoardActivity.this,"fechou",Toast.LENGTH_SHORT).show();
+              //  super.onDrawerClosed(drawerView);
+                mActionBar.setTitle(opcaoDashBoard.getTitle());
+                switch (posicao){
+                    case 0:break;
+                    case 1:
+                        mDrawerLayout.closeDrawer(mListView);
+                        ft = getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.fl_content,new ViagemFragment()).addToBackStack(null).commit();
+                        break;
+
+                    case 2:
+                        mDrawerLayout.closeDrawer(mListView);
+                        ft = getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.fl_content, new GastoFragment()).addToBackStack(null).commit();
+                        break;
+                    case 3:
+                        mDrawerLayout.closeDrawer(mListView);
+                        ft = getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.fl_content,new ViagemListFragment()).addToBackStack(null).commit();
+                        break;
+                    case 4:
+                        mDrawerLayout.closeDrawers();
+                        break;
+                    default:break;
+
+                }
+
 
             }
 
@@ -86,7 +114,6 @@ public class DashBoardActivity extends ActionBarActivity implements ListView.OnI
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
-
     }
 
 
@@ -112,41 +139,27 @@ public class DashBoardActivity extends ActionBarActivity implements ListView.OnI
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        OpcaoDashBoard opcaoDashBoard = (OpcaoDashBoard) parent.getItemAtPosition(position);
 
-        switch (position){
-            case 0:
-                mListView.setItemChecked(position,true);
-                mActionBar.setTitle(opcaoDashBoard.getTitle());
-                mDrawerLayout.closeDrawers();
-                break;
-            case 1:
-                mListView.setItemChecked(position,true);
-                mActionBar.setTitle(opcaoDashBoard.getTitle());
-                mDrawerLayout.closeDrawers();
-                AlertDialog al = new AlertDialog.Builder(DashBoardActivity.this).create();
-                al.setTitle("teste");
-                al.setIcon(R.drawable.travellogo);
-                al.show();
-                break;
-            case 2:
-                android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fl_content, new GastoFragment()).addToBackStack(null).commit();
-                mActionBar.setTitle(opcaoDashBoard.getTitle());
-                mDrawerLayout.closeDrawers();
-                break;
-            case 3:
-                mListView.setItemChecked(position,true);
-                mActionBar.setTitle(opcaoDashBoard.getTitle());
-                mDrawerLayout.closeDrawers();
-                break;
-            case 4:
-                mListView.setItemChecked(position,true);
-                mActionBar.setTitle(opcaoDashBoard.getTitle());
-                mDrawerLayout.closeDrawers();
-                break;
-            default:break;
+        // atributos usados no metodo do DrawerClosed
+        opcaoDashBoard = (OpcaoDashBoard) parent.getItemAtPosition(position);
+         posicao = position;
+        for(int i =0; i<parent.getCount() ;i++){
+            mDrawerLayout.closeDrawer(mListView);
+            //busque o evento de verdade no onDrawerClosed.
+            // para não travar a animação do drawer.
         }
 
+    }
+
+    public void defineData(DatePicker view, int year, int monthOfYear, int dayOfMonth){
+        Bundle bundle = new Bundle();
+        bundle.putInt("dia",dayOfMonth);
+        bundle.putInt("mes",monthOfYear);
+        bundle.putInt("ano",year);
+
+        GastoFragment gasto = new GastoFragment();
+        gasto.setArguments(bundle);
+        FragmentTransaction manager = getSupportFragmentManager().beginTransaction();
+        manager.replace(R.id.fl_content,gasto).commit();
     }
 }

@@ -2,8 +2,12 @@ package thiago.com.br.myapplication.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.*;
 import thiago.com.br.myapplication.R;
 
@@ -13,24 +17,33 @@ import java.util.*;
  * Created by Samsung on 28/01/2015.
  */
 public class ViagemListFragment extends Fragment implements AdapterView.OnItemClickListener{
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-    }
-
-/*    private List<Map<String, Object>> viagens;
+    private List<Map<String, Object>> viagens;
+    private FragmentTransaction tx;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.lista_viagens_fragments, null);
+        ListView lvListaDeViagens = (ListView) view.findViewById(R.id.lv_listaDeViagens);
+        lvListaDeViagens.setOnItemClickListener(this);
+
 
         String[] de = {"imagem", "destino", "data", "totalGasto"};
         int[] para = {R.id.tipoViagem, R.id.destino, R.id.data, R.id.totalGasto};
         SimpleAdapter adapter =
-                new SimpleAdapter(this, listarViagens(),R.layout.lista_viagem, de, para);
+                new SimpleAdapter(getActivity(), listarViagens(),R.layout.lista_viagem, de, para);
+        lvListaDeViagens.setAdapter(adapter);
+        return view;
+    }
 
-        setListAdapter(adapter);
-        getListView().setOnItemClickListener(this);
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Map<String,Object> map = viagens.get(position);
+        String destino = (String) map.get("destino");
+
+        Toast.makeText(getActivity(),"Viagem Selecionada: "+destino,Toast.LENGTH_SHORT).show();
+        tx = getActivity().getSupportFragmentManager().beginTransaction();
+        tx.replace(R.id.fl_content,new GastoListFragment()).addToBackStack(null).commit();
     }
 
     private List<Map<String,Object>> listarViagens() {
@@ -52,13 +65,22 @@ public class ViagemListFragment extends Fragment implements AdapterView.OnItemCl
 
         return viagens;
     }
+/*    private List<Map<String, Object>> viagens;
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Map<String,Object> map = viagens.get(position);
-        String destino = (String) map.get("destino");
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        Toast.makeText(ViagemListFragment.this,"Viagem Selecionada: "+destino,Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(ViagemListFragment.this, GastoListFragment.class));
-    }*/
+        String[] de = {"imagem", "destino", "data", "totalGasto"};
+        int[] para = {R.id.tipoViagem, R.id.destino, R.id.data, R.id.totalGasto};
+        SimpleAdapter adapter =
+                new SimpleAdapter(this, listarViagens(),R.layout.lista_viagem, de, para);
+
+        setListAdapter(adapter);
+        getListView().setOnItemClickListener(this);
+    }
+
+
+    }
+*/
 }
