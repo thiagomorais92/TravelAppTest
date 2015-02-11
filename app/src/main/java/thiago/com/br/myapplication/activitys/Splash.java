@@ -18,10 +18,12 @@ public class Splash extends Activity implements Runnable{
         setContentView(R.layout.splash);
         Handler handler = new Handler();
         handler.postDelayed(this,4000);
+
     }
 
     @Override
     public void run() {
         startActivity(new Intent(this,MainActivity.class));
+        finish();
     }
 }

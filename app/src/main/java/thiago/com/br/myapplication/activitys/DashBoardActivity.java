@@ -113,6 +113,8 @@ public class DashBoardActivity extends ActionBarActivity implements ListView.OnI
         mActionBar = getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeButtonEnabled(true);
+        opcaoDashBoard = new OpcaoDashBoard("Home",1);
+
     }
 
 
