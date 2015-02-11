@@ -13,16 +13,14 @@
 
         </activity>
         <activity android:name=".activitys.DashBoardActivity">
+
+        </activity>
+        <activity android:name=".activitys.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".fragments.ViagemFragment"/>
-        <activity android:name=".fragments.GastoActivity"/>
-        <activity android:name=".fragments.ViagemListFragment"/>
-        <activity android:name=".fragments.GastoListFragment"/>
     </application>
 
 </manifest>

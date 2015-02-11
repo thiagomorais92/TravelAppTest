@@ -11,14 +11,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+
 import java.util.ArrayList;
 import java.util.List;
 import thiago.com.br.myapplication.R;
 import thiago.com.br.myapplication.adapter.AdapterDalista;
 import thiago.com.br.myapplication.fragments.GastoFragment;
+import thiago.com.br.myapplication.fragments.Home;
 import thiago.com.br.myapplication.fragments.ViagemFragment;
 import thiago.com.br.myapplication.fragments.ViagemListFragment;
 import thiago.com.br.myapplication.model.OpcaoDashBoard;
@@ -51,6 +52,8 @@ public class DashBoardActivity extends ActionBarActivity implements ListView.OnI
         mListView.setOnItemClickListener(this);
         mDrawerLayout.setDrawerListener(mActBarDrawerToggle);
 
+        FragmentTransaction fm = getSupportFragmentManager().beginTransaction();
+        fm.replace(R.id.fl_content,new Home()).addToBackStack(null).commit();
     }
 
     private void implementaDrawerToggle() {
@@ -60,32 +63,28 @@ public class DashBoardActivity extends ActionBarActivity implements ListView.OnI
               //  super.onDrawerClosed(drawerView);
                 mActionBar.setTitle(opcaoDashBoard.getTitle());
                 switch (posicao){
-                    case 0:break;
+                    case 0:
+                        ft = getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.fl_content,new Home()).addToBackStack(null).commit();
+                        break;
                     case 1:
-                        mDrawerLayout.closeDrawer(mListView);
                         ft = getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.fl_content,new ViagemFragment()).addToBackStack(null).commit();
                         break;
 
                     case 2:
-                        mDrawerLayout.closeDrawer(mListView);
                         ft = getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.fl_content, new GastoFragment()).addToBackStack(null).commit();
                         break;
                     case 3:
-                        mDrawerLayout.closeDrawer(mListView);
                         ft = getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.fl_content,new ViagemListFragment()).addToBackStack(null).commit();
                         break;
                     case 4:
-                        mDrawerLayout.closeDrawers();
                         break;
-                    default:break;
-
-                }
-
-
-            }
+                    default:
+                        break;
+                }}
 
             @Override
             public void onConfigurationChanged(Configuration newConfig) {
@@ -135,8 +134,6 @@ public class DashBoardActivity extends ActionBarActivity implements ListView.OnI
         opcoesDashBoard.add(new OpcaoDashBoard("Configurações",R.drawable.configuracoes));
     }
 
-
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -151,15 +148,13 @@ public class DashBoardActivity extends ActionBarActivity implements ListView.OnI
 
     }
 
-    public void defineData(DatePicker view, int year, int monthOfYear, int dayOfMonth){
-        Bundle bundle = new Bundle();
-        bundle.putInt("dia",dayOfMonth);
-        bundle.putInt("mes",monthOfYear);
-        bundle.putInt("ano",year);
 
-        GastoFragment gasto = new GastoFragment();
-        gasto.setArguments(bundle);
-        FragmentTransaction manager = getSupportFragmentManager().beginTransaction();
-        manager.replace(R.id.fl_content,gasto).commit();
+
+    @Override
+    public void onBackPressed() {
+        if(mDrawerLayout.isDrawerOpen(mListView)){
+            mDrawerLayout.closeDrawer(mListView);
+        }else{
+        super.onBackPressed();}
     }
 }
