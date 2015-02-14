@@ -1,6 +1,7 @@
 package thiago.com.br.myapplication.activitys;
 
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -8,6 +9,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -80,7 +83,7 @@ public class DashBoardActivity extends ActionBarActivity implements ListView.OnI
                         ft = getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.fl_content,new ViagemListFragment()).addToBackStack(null).commit();
                         break;
-                    case 4:
+                    case 4:startActivity(new Intent(DashBoardActivity.this,ConfiguracoesActivity.class));
                         break;
                     default:
                         break;
@@ -101,10 +104,25 @@ public class DashBoardActivity extends ActionBarActivity implements ListView.OnI
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.dashboard_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
         if(mActBarDrawerToggle.onOptionsItemSelected(item)){return true;}
+        if (id == R.id.sair){
+            finish();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
+
 
     private void inicializaComponentes() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -149,7 +167,6 @@ public class DashBoardActivity extends ActionBarActivity implements ListView.OnI
         }
 
     }
-
 
 
     @Override

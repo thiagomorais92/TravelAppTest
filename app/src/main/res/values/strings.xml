@@ -28,6 +28,24 @@
     <string name="categoria">Categoria:</string>
     <string name="open_drawer">abrir navegação</string>
     <string name="close_drawer">fechar navegação</string>
+    <string name="sair">Sair</string>
+    <string name="remover">remover</string>
+    <string name="editar">Editar</string>
+    <string name="registrar_nvGasto">Registrar novo gasto</string>
+    <string name="visualizarGastos">Visualizar gastos</string>
+    <string name="removerViagem">Remover viagem</string>
+    <string name="gastos_realizados">Gastos realizados</string>
+    <string name="opcoes">Opções</string>
+    <string name="confirmacao_exclusao_viagem">Você deseja mesmo excluir?</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
+    <string name="preferencias">Preferencias</string>
+    <string name="modo_viagem_ativado">Determina a viagem ativa com base na data atual</string>
+    <string name="modo_viagem">Modo viagem</string>
+    <string name="informe_valor_limite">Informe o limite (em %)</string>
+    <string name="valor_limite_sumario">Notifica quando os gastos ultrapassam o percentual definido</string>
+    <string name="valor_limite">Valor limite</string>
+
     <string-array name="opcoes_categoria">
         <item>Alimentação</item>
         <item>Entretenimento</item>
