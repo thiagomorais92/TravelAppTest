@@ -39,6 +39,13 @@
         android:textSize="20dp"
         />
 
+    <CheckBox
+        android:id="@+id/manterConectado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/manter_conectado"
+        android:checked="false" />
+
     <Button
         android:layout_marginTop="25dp"
         android:layout_marginBottom="-30dp"

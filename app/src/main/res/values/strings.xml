@@ -45,6 +45,9 @@
     <string name="informe_valor_limite">Informe o limite (em %)</string>
     <string name="valor_limite_sumario">Notifica quando os gastos ultrapassam o percentual definido</string>
     <string name="valor_limite">Valor limite</string>
+    <string name="manter_conectado">Manter conectado</string>
+    <string name="registtro_salvo">viagem registrada.</string>
+    <string name="erro_salvar">falha ao registrar.</string>
 
     <string-array name="opcoes_categoria">
         <item>Alimentação</item>

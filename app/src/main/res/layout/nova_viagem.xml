@@ -9,21 +9,12 @@
 
         <LinearLayout
             android:background="#015488"
-            android:orientation="vertical" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/nova_viagem"
-                android:textAppearance=
-                    "?android:attr/textAppearanceLarge"
-                android:textStyle="bold" />
-        </LinearLayout>
+            android:orientation="vertical" ></LinearLayout>
 
         <TextView android:text="@string/destino" />
         <EditText
 
-            android:id="@+id/destino"
+            android:id="@+id/destino_nvViagem"
             android:inputType="text" >
         </EditText>
 
@@ -78,7 +69,8 @@
         </TableRow>
         <Button
             android:onClick="salvarViagem"
-            android:text="@string/salvar" />
+            android:text="@string/salvar"
+            android:id="@+id/btSalvarViagem" />
 
         </TableLayout>
 </ScrollView>
