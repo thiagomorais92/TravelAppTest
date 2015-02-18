@@ -2,7 +2,6 @@ package thiago.com.br.myapplication.fragments;
 
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -35,13 +34,19 @@ public class ViagemListFragment extends Fragment implements AdapterView.OnItemCl
     private FragmentTransaction tx;
     private AlertDialog alertDialog;
     private ListView lvListaDeViagens;
-    private int viagemSelecionada;
+    private int viagemSelecionadaID;
     private AlertDialog dialogConfirmacao;
     //about Database
     private DatabaseHelper helper;
     private SimpleDateFormat dateFormat;
     private Double valorLimite;
     SharedPreferences preferencias;
+    private String id;
+    private int tipoViagem;
+    private long dataChegada;
+    private long dataSaida;
+    private double orcamento;
+    private String destino;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -100,7 +105,7 @@ public class ViagemListFragment extends Fragment implements AdapterView.OnItemCl
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Map<String,Object> map = viagens.get(position);
         String destino = (String) map.get("destino");
-        this.viagemSelecionada = position;
+        this.viagemSelecionadaID = position;
         alertDialog.show();
         //tx = getActivity().getSupportFragmentManager().beginTransaction();
         //tx.replace(R.id.fl_content,new GastoListFragment()).addToBackStack(null).commit();
@@ -124,12 +129,12 @@ public class ViagemListFragment extends Fragment implements AdapterView.OnItemCl
         for(int i =0;i<cursor.getCount();i++){
         Map<String, Object> item = new HashMap<String, Object>();
 
-        String id = cursor.getString(0);
-        int tipoViagem = cursor.getInt(1);
-        String destino = cursor.getString(2);
-        long dataChegada = cursor.getLong(3);
-        long dataSaida = cursor.getLong(4);
-        double orcamento = cursor.getDouble(5);
+         id = cursor.getString(0);
+         tipoViagem = cursor.getInt(1);
+         destino = cursor.getString(2);
+         dataChegada = cursor.getLong(3);
+         dataSaida = cursor.getLong(4);
+         orcamento = cursor.getDouble(5);
             item.put("id",id);
             if(tipoViagem == Constantes.VIAGEM_LAZER)item.put("imagem",R.drawable.lazer);
             else item.put("imagem",R.drawable.negocios);
@@ -172,12 +177,18 @@ public class ViagemListFragment extends Fragment implements AdapterView.OnItemCl
         builder.setItems(items,this);
         return builder.create();
     }
+    private void removerViagem(String id){
+        SQLiteDatabase db = helper.getWritableDatabase();
+         String where [] = new String[]{ id };
+         db.delete("gasto", "viagem_id = ?", where);
+         db.delete("viagem", "_id = ?", where);
+    }
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
            switch (which){
                case 0:
-                   String id = (String) viagens.get(viagemSelecionada).get("id");
+                   String id = (String) viagens.get(viagemSelecionadaID).get("id");
                    ViagemFragment mViagemFrag = new ViagemFragment();
                    Bundle bundle = new Bundle();
                    bundle.putString(Constantes.VIAGEM_ID,id);
@@ -200,7 +211,9 @@ public class ViagemListFragment extends Fragment implements AdapterView.OnItemCl
                    dialogConfirmacao.show();
                    break;
                case DialogInterface.BUTTON_POSITIVE:
-                   viagens.remove(this.viagemSelecionada);
+                   id = (String) viagens.get(viagemSelecionadaID).get("id");
+                   viagens.remove(viagemSelecionadaID);
+                   removerViagem(id);
                    lvListaDeViagens.invalidateViews();
                    break;
                case DialogInterface.BUTTON_NEGATIVE:
