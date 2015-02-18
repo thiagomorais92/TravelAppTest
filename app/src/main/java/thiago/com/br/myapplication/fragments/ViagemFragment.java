@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +23,6 @@ import java.util.Date;
 
 import thiago.com.br.myapplication.DAO.DatabaseHelper;
 import thiago.com.br.myapplication.R;
-import thiago.com.br.myapplication.impl.OuvinteDaMudancaDeData;
 import thiago.com.br.myapplication.util.Constantes;
 
 /**
@@ -34,14 +33,13 @@ public class ViagemFragment extends Fragment {
     private DatabaseHelper helper = new DatabaseHelper(getActivity());
     private EditText destino,quantidadePessoas, orcamento;
     private RadioGroup tipoVIagem;
-    private Calendar c;
+    private Calendar CalendDtSaida;
+    private Calendar CalendDtChegada;
     private Button btDataSaida;
     private Button btDataChegada;
     private Button btSalvarViagem;
     private View view;
-    private int ano;
-    private int mes;
-    private int dia;
+
     // para verificar o fluxo: salvar nova ou alterar viagem.
     private String id;
     private SQLiteDatabase db;
@@ -65,10 +63,8 @@ public class ViagemFragment extends Fragment {
 
     private View inicializaComponentes(LayoutInflater inflater) {
         view = inflater.inflate(R.layout.nova_viagem, null);
-        c = Calendar.getInstance();
-        ano = c.get(Calendar.YEAR);
-        mes = c.get(Calendar.MONTH);
-        dia = c.get(Calendar.DAY_OF_MONTH);
+        CalendDtSaida = Calendar.getInstance();
+        CalendDtChegada = Calendar.getInstance();
         btDataSaida = (Button) view.findViewById(R.id.btDataSaida);
             btDataSaida.setOnClickListener(new ListenerOfButton());
         btDataChegada = (Button) view.findViewById(R.id.btDataChegada);
@@ -140,21 +136,31 @@ public class ViagemFragment extends Fragment {
                     //verifica se altera ou se salva
                     if (id == null) {
                         long resultado = db.insert(helper.getTableViagem(), null, montaViagem());
-                        Toast.makeText(getActivity(), "tudo ok", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Salva com sucesso.", Toast.LENGTH_SHORT).show();
+                        getActivity()
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fl_content,new ViagemListFragment())
+                                .commit();
                     } else {
                         long resultado = db.update(helper.getTableViagem(), montaViagem(), "_id =? ", new String[]{id});
-                        Toast.makeText(getActivity(), "tudo caô", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Editada com sucesso.", Toast.LENGTH_SHORT).show();
+                        getActivity()
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fl_content,new ViagemListFragment())
+                                .commit();
                     }
                     break;
                 case R.id.btDataSaida:
-                    new DatePickerDialog(getActivity(),new ListenerOfButton(v,dataSaida),c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH))
+                    new DatePickerDialog(getActivity(),new ListenerOfButton(v,dataSaida), CalendDtSaida.get(Calendar.YEAR), CalendDtSaida.get(Calendar.MONTH), CalendDtSaida.get(Calendar.DAY_OF_MONTH))
                             .show();
 
                     break;
 
                 case R.id.btDataChegada:
 
-                     new DatePickerDialog(getActivity(),new ListenerOfButton(v,dataChegada),c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH))
+                     new DatePickerDialog(getActivity(),new ListenerOfButton(v,dataChegada), CalendDtSaida.get(Calendar.YEAR), CalendDtSaida.get(Calendar.MONTH), CalendDtSaida.get(Calendar.DAY_OF_MONTH))
                             .show();
 
                     break;
@@ -166,11 +172,13 @@ public class ViagemFragment extends Fragment {
         @Override
         public void onDateSet(DatePicker dtpkr, int year, int monthOfYear, int dayOfMonth) {
           Button b = (Button)v;
-            b.setText(dayOfMonth+"/"+monthOfYear+"/"+year);
+            b.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
            if(v.getId()== R.id.btDataSaida){
-               dataSaida = new Date(dtpkr.getYear(),dtpkr.getMonth(),dtpkr.getDayOfMonth());
+               CalendDtSaida.set(year,monthOfYear,dayOfMonth);
+               dataSaida = new Date(CalendDtSaida.getTimeInMillis());
            }else if(v.getId() == R.id.btDataChegada){
-               dataChegada = new Date(year,monthOfYear,dayOfMonth);
+               CalendDtChegada.set(year,monthOfYear,dayOfMonth);
+               dataChegada = new Date(CalendDtChegada.getTimeInMillis());
 
            }
 
