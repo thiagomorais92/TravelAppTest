@@ -75,7 +75,7 @@ public class ViagemListFragment extends Fragment implements AdapterView.OnItemCl
         });
         lvListaDeViagens.setAdapter(adapter);
         lvListaDeViagens.setOnItemClickListener(this);
-        registerForContextMenu(lvListaDeViagens);
+        //registerForContextMenu(lvListaDeViagens);
         return view;
     }
 
@@ -111,12 +111,7 @@ public class ViagemListFragment extends Fragment implements AdapterView.OnItemCl
         //tx.replace(R.id.fl_content,new GastoListFragment()).addToBackStack(null).commit();
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        //super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.viagens_menu_context,menu);
-    }
+
 
     private List<Map<String,Object>> listarViagens() {
         SQLiteDatabase db = helper.getReadableDatabase();
@@ -188,7 +183,7 @@ public class ViagemListFragment extends Fragment implements AdapterView.OnItemCl
     public void onClick(DialogInterface dialog, int which) {
            switch (which){
                case 0:
-                   String id = (String) viagens.get(viagemSelecionadaID).get("id");
+                   id = (String) viagens.get(viagemSelecionadaID).get("id");
                    ViagemFragment mViagemFrag = new ViagemFragment();
                    Bundle bundle = new Bundle();
                    bundle.putString(Constantes.VIAGEM_ID,id);
@@ -198,14 +193,23 @@ public class ViagemListFragment extends Fragment implements AdapterView.OnItemCl
                    tx.commit();
                    break;
                case 1:
+                   id = (String) viagens.get(viagemSelecionadaID).get("id");
+                   GastoFragment mGastoFrag = new GastoFragment();
+                   bundle = new Bundle();
+                   bundle.putString(Constantes.VIAGEM_ID,id);
+                   mGastoFrag.setArguments(bundle);
                    tx = getActivity().getSupportFragmentManager().beginTransaction();
-                   tx.replace(R.id.fl_content,new GastoFragment());
+                   tx.replace(R.id.fl_content,mGastoFrag);
                    tx.commit();
                    break;
                case 2:
+                   String id = (String) viagens.get(viagemSelecionadaID).get("id");
+                   GastoListFragment listGasto = new GastoListFragment();
+                   Bundle params = new Bundle();
+                   params.putString(Constantes.VIAGEM_ID,id);
+                   listGasto.setArguments(params);
                    tx = getActivity().getSupportFragmentManager().beginTransaction();
-                   tx.replace(R.id.fl_content,new GastoListFragment());
-                   tx.commit();
+                   tx.replace(R.id.fl_content,listGasto).addToBackStack(null).commit();
                    break;
                case 3:
                    dialogConfirmacao.show();

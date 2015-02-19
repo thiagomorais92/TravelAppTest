@@ -1,6 +1,8 @@
 package thiago.com.br.myapplication.fragments;
 
 import android.content.res.Configuration;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -18,12 +20,17 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import thiago.com.br.myapplication.DAO.DatabaseHelper;
 import thiago.com.br.myapplication.R;
+import thiago.com.br.myapplication.model.Gasto;
+import thiago.com.br.myapplication.util.Constantes;
 
 /**
  * Created by Samsung on 28/01/2015.
@@ -32,28 +39,43 @@ public class GastoListFragment extends Fragment implements AdapterView.OnItemCli
     private ListView mListView;
     private List<Map<String,Object>> gastos;
     private String dataAnterior = "";
-
+    private DatabaseHelper helper;
+    private String id_param;
+    private static final String[] de = { "data", "descricao", "valor", "categoria" };
+    private static final int[] para = { R.id.data_gasto, R.id.descricao_gasto,
+            R.id.valor_gasto, R.id.categoria_gasto};
+    private SimpleDateFormat sdf;
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mListView = new ListView(getActivity());
+        mListView = inicializaComponentes();
 
-        String[] de = { "data", "descricao", "valor", "categoria" };
-        int[] para = { R.id.data_gasto, R.id.descricao_gasto,
-                R.id.valor_gasto, R.id.categoria_gasto};
 
 
         SimpleAdapter adapter = new SimpleAdapter(getActivity(),listarGastos(),R.layout.lista_gasto,de,para);
         adapter.setViewBinder(new GastoViewBinder());
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(this);
-        registerForContextMenu(mListView);
+       // registerForContextMenu(mListView);
+        return mListView;
+    }
+
+    private ListView inicializaComponentes() {
+        Bundle bundle = getArguments();
+            if(bundle!=null)
+                id_param = bundle.getString(Constantes.VIAGEM_ID);
+                if(id_param != null)
+
+        mListView  = new ListView(getActivity());
+        helper = new DatabaseHelper(getActivity());
+        sdf = new SimpleDateFormat("dd/MM/yyyy");
+
         return mListView;
     }
 
     private class GastoViewBinder implements SimpleAdapter.ViewBinder {
         @Override
         public boolean setViewValue(View view, Object data, String textRepresentation) {
-            if(view.getId() == R.id.data){
+            if(view.getId() == R.id.data_gasto){
                 if(!dataAnterior.equals(data)){
                     TextView textView = (TextView) view;
                     textView.setText(textRepresentation);
@@ -65,8 +87,8 @@ public class GastoListFragment extends Fragment implements AdapterView.OnItemCli
                 return true;
             }
             if(view.getId() == R.id.categoria_gasto){
-                Integer id = (Integer) data;
-                view.setBackgroundColor(getResources().getColor(id));
+                String id =  data.toString();
+               //view.setBackgroundColor(getResources().getColor());
                 return true;
             }
             if (view.getId() == R.id.barraProgresso) {
@@ -82,7 +104,7 @@ public class GastoListFragment extends Fragment implements AdapterView.OnItemCli
     }
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        //super.onCreateContextMenu(menu, v, menuInfo);
+
         MenuInflater inflater = getActivity().getMenuInflater();
         inflater.inflate(R.menu.gasto_menu_context,menu);
     }
@@ -105,22 +127,34 @@ public class GastoListFragment extends Fragment implements AdapterView.OnItemCli
 
     private List<Map<String, Object>> listarGastos(){
         gastos = new ArrayList<Map<String, Object>>();
+        SQLiteDatabase db = helper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT categoria, data, valor,descricao,local,viagem_id FROM gasto where viagem_id = ?", new String[]{id_param});
+       cursor.moveToFirst();
+        for(int i = 0;i< cursor.getCount();i++){
         Map<String, Object> item = new HashMap<String, Object>();
-        item.put("data", "04/02/2012");
-        item.put("descricao", "Diária Hotel");
-        item.put("valor", "R$ 260,00");
-        item.put("categoria", R.color.categoria_hospedagem);
-        gastos.add(item);
+
+            String categoria = cursor.getString(0);
+            Date data = new Date(cursor.getLong(1));
+            String descricao = cursor.getString(2);
+            Double valor = cursor.getDouble(3);
+
+
+
+        item.put("descricao", descricao);
+        item.put("valor", valor);
+        item.put("categoria", categoria);
+
+            item.put("data", sdf.format(data));
+            gastos.add(item);
+        cursor.moveToNext();
+        }
 // pode adicionar mais informações de viagens
         return gastos;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Map<String,Object> map = gastos.get(position);
-        String descricao = (String) map.get("descricao");
-        String mensagem = "Gasto selecionada: " + descricao;
-        Toast.makeText(getActivity(), mensagem,Toast.LENGTH_SHORT).show();
+
     }
 
 

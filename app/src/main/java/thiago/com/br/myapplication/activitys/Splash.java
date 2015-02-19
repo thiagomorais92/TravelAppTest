@@ -24,7 +24,7 @@ public class Splash extends Activity implements Runnable{
 
     @Override
     public void run() {
-        startActivity(new Intent(this,MainActivity.class));
+        startActivity(new Intent(this,DashBoardActivity.class));
         finish();
     }
 }

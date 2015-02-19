@@ -50,7 +50,7 @@
             android:textSize="15sp"
             android:textStyle="bold"/>
         <EditText
-                android:id="@+id/valor"
+                android:id="@+id/etValor"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
@@ -64,11 +64,11 @@
                 android:textSize="15sp"
                 android:textStyle="bold" />
             <EditText
-                android:id="@+id/descricao"
+                android:id="@+id/etDescricao"
                 android:layout_width="200dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:inputType="text"
-                android:hint="o que você comprou?"/>
+                android:hint="o que você comprou?  "/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,14 +76,14 @@
                 android:textSize="15sp"
                 android:textStyle="bold"/>
             <EditText
-                android:id="@+id/local"
+                android:id="@+id/etLocal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text" />
             <Button
+                android:id="@+id/btSalvarGasto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="registrarGasto"
                 android:text="@string/salvar" />
 
 

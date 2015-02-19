@@ -14,10 +14,10 @@
     <string name="lazer">Lazer</string>
     <string name="negocios">Negócios</string>
     <string name="tipo_da_viagem">Tipo de viagem</string>
-    <string name="data_da_saida">Data de saída.</string>
-    <string name="data_da_chegada">Data de chegada</string>
+    <string name="data_da_saida">Data da ida.</string>
+    <string name="data_da_chegada">Data da volta.</string>
     <string name="selecione">selecionar</string>
-    <string name="orcamento">Orçamento</string>
+    <string name="orcamento">Orçamento/Valor máximo que pretendo gastar </string>
     <string name="quantidade_de_pessoas">Número de pessoas</string>
     <string name="salvar">Registrar</string>
     <string name="valor">Valor:</string>
@@ -48,6 +48,7 @@
     <string name="manter_conectado">Manter conectado</string>
     <string name="registtro_salvo">viagem registrada.</string>
     <string name="erro_salvar">falha ao registrar.</string>
+    <string name="welcome_text">Olá, utilize o menu a esquerda para cadastrar uma nova viagem, ou gerenciar os gastos de alguma existente.</string>
 
     <string-array name="opcoes_categoria">
         <item>Alimentação</item>
