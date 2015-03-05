@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/titulo"
-    android:orientation="vertical" >
+    android:orientation="vertical">
     <TextView
         android:id="@+id/data_gasto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:textColor="@android:color/white"/>
+        android:textSize="15sp"
+        android:textColor="@color/blue_soft"/>
 
     <LinearLayout
         android:id="@+id/categoria_gasto"
@@ -17,14 +23,24 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
         <TextView
+            android:id="@+id/local_gasto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/blue_soft"
+            />
+        <TextView
             android:id="@+id/descricao_gasto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black" />
+            android:textSize="15sp"
+            android:textColor="@color/blue_soft" />
         <TextView
             android:id="@+id/valor_gasto"
+            android:text="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black" />
+            android:textColor="@color/blue_soft" />
     </LinearLayout>
 </LinearLayout>
+</ScrollView>

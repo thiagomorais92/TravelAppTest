@@ -103,6 +103,9 @@ public class GastoFragment extends Fragment  {
         public void onClick(View v) {
             switch (v.getId()){
                 case R.id.btSalvarGasto:
+                    if(etValor.getText().toString().equals("")){
+                        etValor.setText("0");
+                    }
                     SQLiteDatabase db = helper.getWritableDatabase();
                     long restult = db.insert(helper.getTableGasto(), null, monstaGasto());
                         if(restult == -1)Toast.makeText(getActivity(),"Problema ao salvar.",Toast.LENGTH_SHORT).show();

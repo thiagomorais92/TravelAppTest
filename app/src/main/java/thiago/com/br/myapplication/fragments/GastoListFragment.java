@@ -1,12 +1,10 @@
 package thiago.com.br.myapplication.fragments;
 
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -15,10 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -29,7 +25,6 @@ import java.util.Map;
 
 import thiago.com.br.myapplication.DAO.DatabaseHelper;
 import thiago.com.br.myapplication.R;
-import thiago.com.br.myapplication.model.Gasto;
 import thiago.com.br.myapplication.util.Constantes;
 
 /**
@@ -41,13 +36,17 @@ public class GastoListFragment extends Fragment implements AdapterView.OnItemCli
     private String dataAnterior = "";
     private DatabaseHelper helper;
     private String id_param;
-    private static final String[] de = { "data", "descricao", "valor", "categoria" };
+    private static final String[] de = { "data", "descricao", "valor", "categoria","localGasto" };
     private static final int[] para = { R.id.data_gasto, R.id.descricao_gasto,
-            R.id.valor_gasto, R.id.categoria_gasto};
+            R.id.valor_gasto, R.id.categoria_gasto,R.id.local_gasto};
     private SimpleDateFormat sdf;
+    private TextView tvGastoAteAgora;
+    private Double valorGastoAteAgora = 0.0;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mListView = inicializaComponentes();
+        View view = inicializaComponentes(inflater);
+
 
 
 
@@ -56,20 +55,23 @@ public class GastoListFragment extends Fragment implements AdapterView.OnItemCli
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(this);
        // registerForContextMenu(mListView);
-        return mListView;
+        return view;
     }
 
-    private ListView inicializaComponentes() {
+    private View inicializaComponentes(LayoutInflater inflater) {
+        View view = inflater.inflate(R.layout.lista_gasto_frag, null);
+
         Bundle bundle = getArguments();
             if(bundle!=null)
                 id_param = bundle.getString(Constantes.VIAGEM_ID);
                 if(id_param != null)
 
-        mListView  = new ListView(getActivity());
+        mListView  = (ListView) view.findViewById(R.id.lv_listaDeGastos);
+        tvGastoAteAgora = (TextView) view.findViewById(R.id.tv_gastouAteAgora);
         helper = new DatabaseHelper(getActivity());
         sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-        return mListView;
+        return view;
     }
 
     private class GastoViewBinder implements SimpleAdapter.ViewBinder {
@@ -87,18 +89,11 @@ public class GastoListFragment extends Fragment implements AdapterView.OnItemCli
                 return true;
             }
             if(view.getId() == R.id.categoria_gasto){
-                String id =  data.toString();
-               //view.setBackgroundColor(getResources().getColor());
+               // Integer cat = (Integer) data;
+               //view.setBackgroundColor(getResources().getColor(cat));
                 return true;
             }
-            if (view.getId() == R.id.barraProgresso) {
-                Double valores[] = (Double[]) data;
-                ProgressBar progressBar = (ProgressBar) view;
-                progressBar.setMax(valores[0].intValue());
-                progressBar.setSecondaryProgress(valores[1].intValue());
-                progressBar.setProgress(valores[2].intValue());
-                return true;
-            }
+
             return false;
         }
     }
@@ -135,20 +130,22 @@ public class GastoListFragment extends Fragment implements AdapterView.OnItemCli
 
             String categoria = cursor.getString(0);
             Date data = new Date(cursor.getLong(1));
-            String descricao = cursor.getString(2);
-            Double valor = cursor.getDouble(3);
-
+            String valor = "R$ "+cursor.getString(2);
+            String descricao = "Comprou: "+ cursor.getString(3);
+            String local_gasto = cursor.getString(4);
+            valorGastoAteAgora = valorGastoAteAgora + cursor.getDouble(2);
 
 
         item.put("descricao", descricao);
         item.put("valor", valor);
         item.put("categoria", categoria);
-
+        item.put("localGasto",local_gasto);
             item.put("data", sdf.format(data));
             gastos.add(item);
         cursor.moveToNext();
         }
-// pode adicionar mais informações de viagens
+        tvGastoAteAgora.setText("Gastou até o momento: R$"+String.valueOf(valorGastoAteAgora));
+
         return gastos;
     }
 

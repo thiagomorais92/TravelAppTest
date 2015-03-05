@@ -75,15 +75,15 @@ public class DashBoardActivity extends ActionBarActivity implements ListView.OnI
                         ft.replace(R.id.fl_content,new ViagemFragment()).addToBackStack(null).commit();
                         break;
 
+                    //case 2:
+                        //ft = getSupportFragmentManager().beginTransaction();
+                        //ft.replace(R.id.fl_content, new GastoFragment()).addToBackStack(null).commit();
+                       // break;
                     case 2:
-                        ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.fl_content, new GastoFragment()).addToBackStack(null).commit();
-                        break;
-                    case 3:
                         ft = getSupportFragmentManager().beginTransaction();
                         ft.replace(R.id.fl_content,new ViagemListFragment()).addToBackStack(null).commit();
                         break;
-                    case 4:startActivity(new Intent(DashBoardActivity.this,ConfiguracoesActivity.class));
+                    case 3:startActivity(new Intent(DashBoardActivity.this,ConfiguracoesActivity.class));
                         break;
                     default:
                         break;
@@ -149,7 +149,7 @@ public class DashBoardActivity extends ActionBarActivity implements ListView.OnI
         opcoesDashBoard = new ArrayList<OpcaoDashBoard>();
         opcoesDashBoard.add(new OpcaoDashBoard("Home",R.drawable.home_icon));
         opcoesDashBoard.add(new OpcaoDashBoard("Nova viagem",R.drawable.nova_viagem));
-        opcoesDashBoard.add(new OpcaoDashBoard("Novo gasto",R.drawable.novo_gasto));
+      //  opcoesDashBoard.add(new OpcaoDashBoard("Novo gasto",R.drawable.novo_gasto));
         opcoesDashBoard.add(new OpcaoDashBoard("Minhas viagens",R.drawable.minhas_viagens));
         opcoesDashBoard.add(new OpcaoDashBoard("Configurações",R.drawable.configuracoes));
     }
